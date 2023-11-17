@@ -129,3 +129,4 @@ fun match (valu, patt) =
 fun first_match x lst =
 	SOME (first_answer (fn patt => match (x, patt)) lst)
 	handle NoAnswer => NONE
+x
