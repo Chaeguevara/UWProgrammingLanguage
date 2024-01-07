@@ -75,9 +75,25 @@
     (lambda()(f s)))
   )
 
-(define this_that (cons (cons 1 1) 1))
-this_that
+(define (cycle-lists xs ys)
+  (letrec ([f (lambda(xidx yidx)
+                (let ([x_len  (length xs) ]
+                      [y_len  (length ys) ]
+                      )
+                  (cond [(and (< xidx x_len) (< yidx y_len))(cons (cons (list-ref xs xidx)(list-ref ys yidx ) ) (lambda()(f (+ xidx 1) (+ yidx 1))) ) ]  
+                        [(< xidx x_len) (cons (cons (list-ref xs xidx)(list-ref ys 0 ) ) (lambda()(f (+ xidx 1) 1)) )]
+                        [(< yidx y_len) (cons (cons (list-ref xs 0)(list-ref ys yidx ) ) (lambda()(f 1 (+ yidx 1))) )]
+                        [#t (cons (cons (list-ref xs 0)(list-ref ys 0 ) ) (lambda()(f 1 1)) )]
+                        )
+                  )
+              ) ]
+           )
+  (lambda()(f 0 0)))
+
+  )
+
 
 (dan-then-dog)
 (stream-add-zero ones)
-(stream-for-n-steps (stream-add-zero ones) 1)
+(stream-for-n-steps (stream-add-zero ones) 2)
+(stream-for-n-steps (cycle-lists (list 1 2 3) (list "a" "b")) 4)
