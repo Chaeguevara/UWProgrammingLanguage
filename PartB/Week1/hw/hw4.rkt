@@ -10,13 +10,13 @@
    null 
   (cons x (sequence (+ x z) y z))))
 
-(define (string-append-map lst)
+(define (string-append-map lst suf)
   (map (lambda (x)
-         (string-append x ".jpg")
+         (string-append x suf)
          )
        lst))
 
-(string-append-map (list "dan" "dog" "curry" "dog2"))
+(string-append-map (list "dan" "dog" "curry" "dog2") ".jpg")
 
 (define (list-nth-mod lst n)
   (cond[(< n 0) (error "list-nth-mod: negative number")]
@@ -92,8 +92,23 @@
 
   )
 
+(define (vector-assoc v vec)
+  (letrec ([f (lambda(idx)
+                (let ([vec_len (vector-length vec)]
+                      )
+                  (cond [(> idx vec_len) #f]
+                        [(equal? v (car (vector-ref vec idx))) (vector-ref vec idx) ]
+                        [#t (f (+ idx 1)) ]
+                        )
+                  )
+                )])
+    (f 0)
+    )
+  )
+
 
 (dan-then-dog)
 (stream-add-zero ones)
 (stream-for-n-steps (stream-add-zero ones) 2)
 (stream-for-n-steps (cycle-lists (list 1 2 3) (list "a" "b")) 4)
+(vector-assoc 4 (vector (cons 2 1) (cons 3 1) (cons 4 1) (cons 5 1)))
